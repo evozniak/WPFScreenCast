@@ -15,20 +15,27 @@ namespace WPFSceenCast
 {
     class Captura
     {
-        public DirectBitmap UltimoQuadro { get; set; }
-        public Timer tmrExecucao { get; set; }
+        private DirectBitmap UltimoQuadro { get; set; }
+        private Timer tmrExecucao { get; set; }
+        public event Action<List<PixelModificado>> houveCaptura;
 
         public Captura()
         {
             tmrExecucao = new Timer();
-            tmrExecucao.Interval = 16;
+            tmrExecucao.Interval = 50;
             tmrExecucao.Tick += TmrExecucao_Tick;
             tmrExecucao.Enabled = false;
+            //houveCaptura = new Action(houveCaptura);
         }
 
         public void Iniciar()
         {
             tmrExecucao.Enabled = true;
+        }
+
+        public void Parar()
+        {
+            tmrExecucao.Enabled = false;
         }
 
         [DllImport("msvcrt.dll")]
@@ -88,27 +95,30 @@ namespace WPFSceenCast
                     var ultimacor = UltimoQuadro.GetPixel(x, y);
                     if (cor != ultimacor)
                     {
-                        var pixel = new PixelModificado { Cor = cor, X = x, Y = y };
+                        //var pixel = new PixelModificado { Cor = cor, X = x, Y = y };
+                        var pixel = new PixelModificado { corAlpha = cor.A, corRed = cor.R, corGreen = cor.G, corBlue = cor.B, X = x, Y = y };
                         alteracoes.Add(pixel);
                     }
                 });
             });
 
-            var texto = new StringBuilder();
-            texto.Append(alteracoes.Count.ToString());
-            //foreach (var pixel in alteracoes)
-            //{
-            //    texto.AppendLine($@"Cor: { pixel.Cor.ToArgb()} X: { pixel.X } Y: {pixel.Y} ");
-            //}
-            var path = @"C:\temp\logcores.txt";
-            File.WriteAllText(path, texto.ToString());
+            //var texto = new StringBuilder();
+            //texto.Append(alteracoes.Count.ToString());
+            ////foreach (var pixel in alteracoes)
+            ////{
+            ////    texto.AppendLine($@"Cor: { pixel.Cor.ToArgb()} X: { pixel.X } Y: {pixel.Y} ");
+            ////}
+            //var path = @"C:\temp\logcores.txt";
+            //File.WriteAllText(path, texto.ToString());
 
+            houveCaptura(alteracoes.ToList());
             while (alteracoes.Count > 0)
             {
                 alteracoes.Take();
             }
             UltimoQuadro.Dispose();
             UltimoQuadro = print;
+            
             //GC.Collect();
 
 

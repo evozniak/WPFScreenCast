@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFScreenCast;
 
 namespace WPFSceenCast
 {
@@ -20,16 +21,26 @@ namespace WPFSceenCast
     /// </summary>
     public partial class MainWindow : Window
     {
-        Captura servidor;
+        Captura captura;
+        Servidor servidor;
+        Cliente cliente;
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void btnIniciar_Click(object sender, RoutedEventArgs e)
+        private async void btnIniciar_Click(object sender, RoutedEventArgs e)
         {
-            servidor = new Captura();
-            servidor.Iniciar();
+            //captura = new Captura();
+            //captura.Iniciar();
+            servidor = new Servidor();
+            await servidor.Iniciar();
+        }
+
+        private async void btnConectar_Click(object sender, RoutedEventArgs e)
+        {
+            cliente = new Cliente(imgTransmitida);
+            await cliente.Conectar();
         }
     }
 }
