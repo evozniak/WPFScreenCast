@@ -55,7 +55,6 @@ namespace WPFScreenCast
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                 bitmapImage.EndInit();
                 imgCanvas.Source = bitmapImage as ImageSource;
-                dbm.Bitmap.Save(@"C:\temp\captura.bmp");
             }
 
         }
