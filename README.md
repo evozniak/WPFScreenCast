@@ -14,3 +14,5 @@ Captura e transmissão da Área de trabalho.
 -Evento com action;
 
 -Formulário WPF simples com code behind.
+
+Projeto criado com .Net Core 3+
