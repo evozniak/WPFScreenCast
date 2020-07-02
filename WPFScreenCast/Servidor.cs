@@ -28,7 +28,6 @@ namespace WPFScreenCast
         private async void PCaptura_houveCaptura(List<PixelModificado> obj)
         {
             await streamHub.Clients.All.SendAsync("Enviar", obj);
-            //await streamHub.Clients.All.SendAsync("Enviar", "teste");
         }
 
         public async Task Iniciar()
@@ -46,7 +45,7 @@ namespace WPFScreenCast
 
         private static IWebHostBuilder CriarHostAsp() =>
             WebHost.CreateDefaultBuilder()
-            .UseStartup<Startup>();
+            .UseStartup<Startup>().UseUrls("http://0.0.0.0:5000");
     }
 
 

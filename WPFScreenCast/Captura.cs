@@ -25,7 +25,6 @@ namespace WPFSceenCast
             tmrExecucao.Interval = 50;
             tmrExecucao.Tick += TmrExecucao_Tick;
             tmrExecucao.Enabled = false;
-            //houveCaptura = new Action(houveCaptura);
         }
 
         public void Iniciar()
@@ -71,7 +70,7 @@ namespace WPFSceenCast
             DirectBitmap print = new DirectBitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             var grafico = Graphics.FromImage(print.Bitmap);
             var tamanho = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Size.Height);
-            grafico.CopyFromScreen(0, 0, 0, 0, tamanho);
+            grafico.CopyFromScreen(0, 0, 0, 0, tamanho,CopyPixelOperation.SourceCopy);
 
             if (UltimoQuadro == null)
             {
@@ -95,34 +94,16 @@ namespace WPFSceenCast
                     var ultimacor = UltimoQuadro.GetPixel(x, y);
                     if (cor != ultimacor)
                     {
-                        //var pixel = new PixelModificado { Cor = cor, X = x, Y = y };
                         var pixel = new PixelModificado { corAlpha = cor.A, corRed = cor.R, corGreen = cor.G, corBlue = cor.B, X = x, Y = y };
                         alteracoes.Add(pixel);
                     }
                 });
             });
 
-            //var texto = new StringBuilder();
-            //texto.Append(alteracoes.Count.ToString());
-            ////foreach (var pixel in alteracoes)
-            ////{
-            ////    texto.AppendLine($@"Cor: { pixel.Cor.ToArgb()} X: { pixel.X } Y: {pixel.Y} ");
-            ////}
-            //var path = @"C:\temp\logcores.txt";
-            //File.WriteAllText(path, texto.ToString());
-
             houveCaptura(alteracoes.ToList());
-            while (alteracoes.Count > 0)
-            {
-                alteracoes.Take();
-            }
+
             UltimoQuadro.Dispose();
             UltimoQuadro = print;
-            
-            //GC.Collect();
-
-
-            //UltimoQuadro
         }
     }
 }
