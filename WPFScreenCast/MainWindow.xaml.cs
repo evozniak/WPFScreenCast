@@ -39,7 +39,7 @@ namespace WPFSceenCast
 
         private async void btnConectar_Click(object sender, RoutedEventArgs e)
         {
-            cliente = new Cliente(imgTransmitida);
+            cliente = new Cliente(imgTransmitida,txtIp.Text);
             await cliente.Conectar();
         }
     }

@@ -21,20 +21,16 @@ namespace WPFScreenCast
         private CancellationToken tokenCancelamento;
         System.Windows.Controls.Image imgCanvas;
         DirectBitmap dbm;
-        public Cliente(System.Windows.Controls.Image imgCanvas)
+        public Cliente(System.Windows.Controls.Image imgCanvas, string IpDestino)
         {
             Conexao = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/streamHub")
+                .WithUrl($"http://{IpDestino}:5000/streamHub")
                 .Build();
 
             Conexao.On("Enviar", (List<PixelModificado> alteracoes) =>
             {
                 ReconstruirBitMap(alteracoes);
             });
-            //Conexao.On("Enviar", (string mensagem) =>
-            //{
-            //    txtLog.AppendText(mensagem);
-            //});
             this.imgCanvas = imgCanvas;
         }
         public void ReconstruirBitMap(List<PixelModificado> dados)
@@ -60,7 +56,6 @@ namespace WPFScreenCast
                 bitmapImage.EndInit();
                 imgCanvas.Source = bitmapImage as ImageSource;
                 dbm.Bitmap.Save(@"C:\temp\captura.bmp");
-                //dbm.Dispose();
             }
 
         }
