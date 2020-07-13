@@ -16,3 +16,5 @@ Captura e transmissão da Área de trabalho.
 -Formulário WPF simples com code behind.
 
 Projeto criado com .Net Core 3+
+
+Arquivo binário https://github.com/evozniak/WPFScreenCast/releases
